@@ -20,7 +20,7 @@ class AdminController extends Controller
     //fonction qui permet d'aff la page1
     /*
     public function __construct() {
-        $this->middleware('auth:admin');
+        $this->middleware('authinterfaces:admin');
     }
     */
     /**

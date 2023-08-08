@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Mockery\Exception;
 
 class LoginController extends Controller
 {
@@ -41,6 +46,28 @@ class LoginController extends Controller
 
     }
 
+    public function  Login(Request $request){
+
+        try {
+            $request->validate([
+                'identify' => ['required'],
+                'password' => ['required', 'min:8'],
+            ]);
+            $identify = $this->username();
+            /** @var TYPE_NAME $creds */
+            $creds = $request->only([$identify,'password']);
+            if( Auth::guard('web')->attempt($creds)) {
+                return redirect()->route('user.home');
+            }elseif(Auth::guard('admin')->attempt($creds)){
+                return redirect()->route('admin.home');
+            }
+            else{
+                return redirect()->route('showLoginForm')->with('fail','Verifier le mot de passe');
+            }
+        } catch (Exception $exception) {
+
+        }
+    }
     public function username()
     {
        // return 'phone';

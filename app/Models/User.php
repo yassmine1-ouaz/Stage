@@ -36,4 +36,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function userType()
+    {
+        return $this->hasOne('App\Models\UsersTypes','type_id');
+    }
 }

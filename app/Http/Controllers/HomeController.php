@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UsersTypes;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,9 +14,17 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth' ); //user must be authenticated
+        $this->middleware('authinterfaces' ); //user must be authenticated
     }
 
+    public function showLoginForm(){
+
+        return view('authinterfaces.login')->withTitle('Login');
+    }
+    public function showRegisterForm(){
+        $types = UsersTypes::get();
+        return view('authinterfaces.register',['types'=>$types])->withTitle('Register');
+    }
     /**
      * Show the application dashboard.
      *
@@ -23,8 +32,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        //return view('home');
         return view('dashboard.admin.home');
         return view('dashboard.user.home');
+
+
+    }
+
+    public function showFront(){
+        return view('front.masterfront')->withTitle('Front');
     }
 }

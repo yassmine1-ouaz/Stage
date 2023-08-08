@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -62,12 +63,19 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+    function create(UserRequest $request){
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->password = Hash::make($request->password);
+        $user->type_id = $request->type_id ;
+        if($user->save()){
+            $this->createToken($user->id,$user->email);
+            return redirect()->back()->with('success','You need to verify your account, we have sent you an activation link , please check your email.');
+        }else{
+            return redirect()->back()->with('fail','something went wrong');
+        }
+
     }
 }

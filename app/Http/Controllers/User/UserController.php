@@ -32,7 +32,7 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->password = Hash::make($request->password);
-
+        $user->user_type = $request->user_type ;
         if($user->save()){
               $this->createToken($user->id,$user->email);
             return redirect()->back()->with('success','You need to verify your account, we have sent you an activation link , please check your email.');
@@ -53,9 +53,9 @@ class UserController extends Controller
                 $verifyUser->user->email_verified = 1;
                 $verifyUser->user->save();
 
-                return redirect()->route('user.login')->with('info', 'Your email  is verified successfully, You can now login' )->with('verifiedEmail', $user->email);
+                return redirect()->route('showLoginForm')->with('info', 'Your email  is verified successfully, You can now login' )->with('verifiedEmail', $user->email);
             }else{
-                return redirect()->route('user.login')->with('info', 'Your email is already verified, You can now login')->with('verifiedEmail' , $user->email);
+                return redirect()->route('showLoginForm')->with('info', 'Your email is already verified, You can now login')->with('verifiedEmail' , $user->email);
 
             }
         }
@@ -80,9 +80,38 @@ class UserController extends Controller
         if( Auth::guard('web')->attempt($creds)) {
             return redirect()->route('user.home');
         }else{
-            return redirect()->route('user.login')->with('fail','Incorrect credentials');
+            return redirect()->route('user.login')->with('fail','Verifier le ot de passe');
         }
     }
+
+    public function isUser(){
+
+        return view('front.pages.user');
+    }
+
+
+    public function isInvestisseur(){
+
+        return view('front.pages.invest');
+    }
+
+
+    public function isProprietaire(){
+
+        return view('front.pages.prop');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     function logout(){
         Auth::logout();

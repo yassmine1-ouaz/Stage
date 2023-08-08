@@ -32,10 +32,8 @@ Route::group(['namespace' => 'Admin'], function () {
         Route::get('/show', [UserController::class,''])->name('dashboard.users');
         Route::get('/create', [UserController::class,''])->name('dashboard.users.create');
         Route::post('/store', [UserController::class,''])->name('dashboard.users.store');
-
         Route::get('/{id}/edit', [UserController::class,''])->name('dashboard.users.edit');
         Route::get('/update/{id}', [UserController::class,''])->name('dashboard.users.update');
-
         Route::get('/delete/{id}', [UserController::class,''])->name('dashboard.users.delete');
     });
     //prefix : User nous facilite d'ecriture User/create
@@ -54,7 +52,7 @@ Route::prefix('admin')->name('admin.')->group(function (){
         Route::view('/login','dashboard.admin.login')->name('login');
         Route::post('/check',[AdminController::class,'check'])->name('check');
   // });
-    //Route::middleware(['auth:admin'])->group(function (){
+    //Route::middleware(['authinterfaces:admin'])->group(function (){
         Route::post('/create',[AdminController::class,'create'])->name('create');
         Route::view('/home','dashboard.admin.home')->name('home');
   //  });
