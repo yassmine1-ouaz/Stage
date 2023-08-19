@@ -31,9 +31,9 @@
                                 <a href="#!"><img class="avatar-img rounded border border-white border-3" src="assets/images/avatar/07.jpg" alt=""></a>
                             </div>
                             <!-- Info -->
-                            <h5 class="mb-0"> <a href="#!">Sam Lanson </a> </h5>
-                            <small>Web Developer at Webestica</small>
-                            <p class="mt-3">I'd love to change the world, but they won’t give me the source code.</p>
+                            <h5 class="mb-0"> <a href="#!">{{Auth::user()->name}}</a> </h5>
+                            <small>{{Auth::user()->userType->name}}</small>
+                            <p class="mt-3">Description</p>
 
                             <!-- User stat START -->
                             <div class="hstack gap-2 gap-xl-3 justify-content-center">
@@ -94,12 +94,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="settings.html">Settings</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="https://support.webestica.com/login">Support </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="docs/index.html">Docs </a>
-                    </li>
+
 
                 </ul>
                 <!-- Helper link END -->

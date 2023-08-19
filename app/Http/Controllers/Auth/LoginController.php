@@ -32,7 +32,6 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
-
     /**
      * Create a new controller instance.
      *
@@ -41,13 +40,12 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-       // $this->middleware('guest:admin')->except('logout');
-      //  $this->middleware('guest:user')->except('logout');
+        // $this->middleware('guest:admin')->except('logout');
+        //  $this->middleware('guest:user')->except('logout');
 
     }
 
     public function  Login(Request $request){
-
         try {
             $request->validate([
                 'identify' => ['required'],
@@ -56,6 +54,7 @@ class LoginController extends Controller
             $identify = $this->username();
             /** @var TYPE_NAME $creds */
             $creds = $request->only([$identify,'password']);
+
             if( Auth::guard('web')->attempt($creds)) {
                 return redirect()->route('user.home');
             }elseif(Auth::guard('admin')->attempt($creds)){
@@ -70,14 +69,14 @@ class LoginController extends Controller
     }
     public function username()
     {
-       // return 'phone';
+        // return 'phone';
         $value = request() -> input ('identify'); // aa@aa.com or 523361
         $field = filter_var($value, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
 
-       /* $field ='';
-        if(filter_var($value, FILTER_VALIDATE_EMAIL)) {
-            $field = 'email';
-        }else$field = 'phone';*/
+        /* $field ='';
+         if(filter_var($value, FILTER_VALIDATE_EMAIL)) {
+             $field = 'email';
+         }else$field = 'phone';*/
 
         request()->merge([$field =>$value]);
         return $field;

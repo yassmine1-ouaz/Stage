@@ -38,6 +38,16 @@ class User extends Authenticatable
     ];
     public function userType()
     {
-        return $this->hasOne('App\Models\UsersTypes','type_id');
+        return $this->belongsTo('App\Models\UsersTypes','type_id','id');
+    }
+
+
+    public function immobilier()
+    {
+        return $this->hasMany('App\Models\Immobilier');
+    }
+    public function publication()
+    {
+        return $this->hasMany('App\Models\Publication');
     }
 }

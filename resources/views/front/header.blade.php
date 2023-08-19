@@ -38,36 +38,13 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link active dropdown-toggle" href="#" id="homeMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Demo</a>
                         <ul class="dropdown-menu" aria-labelledby="homeMenu">
-                            <li> <a class="dropdown-item active" href="index-2.html">Home default</a></li>
+                            <li> <a class="dropdown-item active" href="index-2.html">Home </a></li>  *
+                            <li> <a class="dropdown-item" href="forgot-password.html">Forgot password</a> </li>
                             <li class="dropdown-divider"></li>
 
                         </ul>
                     </li>
-                    <!-- Nav item 2 Pages -->
 
-
-                    <!-- Nav item 3 Post -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="postMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account </a>
-                        <ul class="dropdown-menu" aria-labelledby="postMenu">
-                                <!-- dropdown submenu open left -->
-                            <li class="dropdown-submenu dropstart">
-                                <a class="dropdown-item dropdown-toggle" href="#">Authentication</a>
-                                <ul class="dropdown-menu dropdown-menu-end" data-bs-popper="none">
-                                    <li> <a class="dropdown-item" href="sign-in.html">Sign in</a> </li>
-                                    <li> <a class="dropdown-item" href="sign-up.html">Sing up</a> </li>
-                                    <li> <a class="dropdown-item" href="forgot-password.html">Forgot password</a> </li>
-                                    <li class="dropdown-divider"></li>
-                                    <li> <a class="dropdown-item" href="sign-in-advance.html">Sign in advance</a> </li>
-                                    <li> <a class="dropdown-item" href="sign-up-advance.html">Sing up advance</a> </li>
-                                    <li> <a class="dropdown-item" href="forgot-password-advance.html">Forgot password advance</a> </li>
-                                </ul>
-                            </li>
-                            <li> <a class="dropdown-item" href="error-404.html">Error 404</a> </li>
-                            <li> <a class="dropdown-item" href="offline.html">Offline</a> </li>
-                            <li> <a class="dropdown-item" href="privacy-and-terms.html">Privacy & terms</a> </li>
-                        </ul>
-                    </li>
 
                     <!-- Nav item 4 Mega menu -->
                     <li class="nav-item">
@@ -79,16 +56,8 @@
 
             <!-- Nav right START -->
             <ul class="nav flex-nowrap align-items-center ms-sm-3 list-unstyled">
-                <li class="nav-item ms-2">
-                    <a class="nav-link icon-md btn btn-light p-0" href="messaging.html">
-                        <i class="bi bi-chat-left-text-fill fs-6"> </i>
-                    </a>
-                </li>
-                <li class="nav-item ms-2">
-                    <a class="nav-link icon-md btn btn-light p-0" href="settings.html">
-                        <i class="bi bi-gear-fill fs-6"> </i>
-                    </a>
-                </li>
+
+
                 <li class="nav-item dropdown ms-2">
                     <a class="nav-link icon-md btn btn-light p-0" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                         <span class="badge-notif animation-blink"></span>
@@ -146,26 +115,16 @@
                                     <img class="avatar-img rounded-circle" src="assets/images/avatar/07.jpg" alt="avatar">
                                 </div>
                                 <div>
-                                    <a class="h6 stretched-link" href="#">Lori Ferguson</a>
-                                    <p class="small m-0">Web Developer</p>
+                                    <a class="h6 stretched-link" href="#">{{Auth::user()->name}}</a>
+                                    <p class="small m-0">{{Auth::user()->userType->name}}</p>
                                 </div>
                             </div>
-                            <a class="dropdown-item btn btn-primary-soft btn-sm my-2 text-center" href="my-profile.html">View profile</a>
+                            <a class="dropdown-item btn btn-primary-soft btn-sm my-2 text-center" href="">View profile</a>
                         </li>
                         <!-- Links -->
-                        <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear fa-fw me-2"></i>Settings & Privacy</a></li>
-                        <li>
-                            <a class="dropdown-item" href="https://support.webestica.com/" target="_blank">
-                                <i class="fa-fw bi bi-life-preserver me-2"></i>Support
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="docs/index.html" target="_blank">
-                                <i class="fa-fw bi bi-card-text me-2"></i>Documentation
-                            </a>
-                        </li>
+
                         <li class="dropdown-divider"></li>
-                        <li><a class="dropdown-item bg-danger-soft-hover" href="sign-in-advance.html"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
+                        <li><a class="dropdown-item bg-danger-soft-hover" href="{{ route('user.logout') }}"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
                         <li> <hr class="dropdown-divider"></li>
                         <!-- Dark mode options START -->
                         <li>

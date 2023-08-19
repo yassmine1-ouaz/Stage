@@ -1,7 +1,6 @@
 @extends('layouts.auth')
 @section('title' ,'login')
 @section('content')
-
 <body class="bg-gradient-login">
 
 <!-- Login Content -->
@@ -33,6 +32,8 @@
                                     <div class="form-group">
                                         <label >Email Or phone</label>
                                         <input  type="text" class="form-control" name="identify" placeholder="Enter your email or number_phone please">
+                                        <small id="emailHelp" class="form-text text-muted">We'll never share your
+                                            email with anyone else.</small>
                                         @if(isset($errors))
                                             @error('identify')
                                             <span class="invalid-feedback" role="alert">

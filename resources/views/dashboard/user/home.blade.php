@@ -1,7 +1,7 @@
 @extends('front.masterfront')
 
 @section('title','Front')
-
+@include('sweetalert::alert')
 
 @section('content')
     <main>
@@ -21,7 +21,7 @@
                     <!-- Share feed START -->
                   @include('front.publication')
                     <!-- Share feed END -->
-
+                    @foreach( $immobiliers as $immobilier)
                     <!-- Card feed item START -->
                     <div class="card">
                         <!-- Card header START -->
@@ -34,11 +34,14 @@
                                     </div>
                                     <!-- Info -->
                                     <div>
+
+
+
                                         <div class="nav nav-divider">
-                                            <h6 class="nav-item card-title mb-0"> <a href="#!"> Lori Ferguson </a></h6>
+                                            <h6 class="nav-item card-title mb-0"> <a href="#!">{{Auth::user()->name}}</a></h6>
                                             <span class="nav-item small"> 2hr</span>
                                         </div>
-                                        <p class="mb-0 small">Web Developer at Webestica</p>
+                                        <p class="mb-0 small">{{Auth::user()->userType->name}}</p>
                                     </div>
                                 </div>
                                 <!-- Card feed action dropdown START -->
@@ -48,9 +51,8 @@
                                     </a>
                                     <!-- Card feed action dropdown menu -->
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cardFeedAction">
-                                        <li><a class="dropdown-item" href="#"> <i class="bi bi-bookmark fa-fw pe-2"></i>Save post</a></li>
-                                        <li><a class="dropdown-item" href="#"> <i class="bi bi-person-x fa-fw pe-2"></i>Unfollow lori ferguson </a></li>
-                                        <li><a class="dropdown-item" href="#"> <i class="bi bi-x-circle fa-fw pe-2"></i>Hide post</a></li>
+                                        <li><a class="dropdown-item" href={{route('user.editImmob',['id'])}}> <i class="bi bi-bookmark fa-fw pe-2"></i>Edit post</a></li>
+                                        <li><a class="dropdown-item" href="#"> <i class="bi bi-x-circle fa-fw pe-2"></i>Delete post </a></li>
                                         <li><a class="dropdown-item" href="#"> <i class="bi bi-slash-circle fa-fw pe-2"></i>Block</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li><a class="dropdown-item" href="#"> <i class="bi bi-flag fa-fw pe-2"></i>Report post</a></li>
@@ -61,36 +63,98 @@
                         </div>
                         <!-- Card header END -->
                         <!-- Card body START -->
-                        <div class="card-body">
-                            <p>I'm thrilled to share that I've completed a graduate certificate course in project management with the president's honor roll.</p>
-                            <!-- Card img -->
-                            <img class="card-img" src="assets/images/post/3by2/01.jpg" alt="Post">
-                            <!-- Feed react START -->
-                            <ul class="nav nav-stack py-3 small">
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="#!" data-bs-container="body" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" data-bs-custom-class="tooltip-text-start" data-bs-title="Frances Guerrero<br> Lori Stevens<br> Billy Vasquez<br> Judy Nguyen<br> Larry Lawson<br> Amanda Reed<br> Louis Crawford"> <i class="bi bi-hand-thumbs-up-fill pe-1"></i>Liked (56)</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#!"> <i class="bi bi-chat-fill pe-1"></i>Comments (12)</a>
-                                </li>
-                                <!-- Card share action START -->
-                                <li class="nav-item dropdown ms-sm-auto">
-                                    <a class="nav-link mb-0" href="#" id="cardShareAction" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="bi bi-reply-fill flip-horizontal ps-1"></i>Share (3)
-                                    </a>
-                                    <!-- Card share action dropdown menu -->
-                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cardShareAction">
-                                        <li><a class="dropdown-item" href="#"> <i class="bi bi-envelope fa-fw pe-2"></i>Send via Direct Message</a></li>
-                                        <li><a class="dropdown-item" href="#"> <i class="bi bi-bookmark-check fa-fw pe-2"></i>Bookmark </a></li>
-                                        <li><a class="dropdown-item" href="#"> <i class="bi bi-link fa-fw pe-2"></i>Copy link to post</a></li>
-                                        <li><a class="dropdown-item" href="#"> <i class="bi bi-share fa-fw pe-2"></i>Share post via …</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item" href="#"> <i class="bi bi-pencil-square fa-fw pe-2"></i>Share to News Feed</a></li>
-                                    </ul>
-                                </li>
-                                <!-- Card share action END -->
-                            </ul>
-                            <!-- Feed react END -->
+                        <div class="card-body pb-0">
+                            <p>Name :{{$immobilier->name }}</p>
+                            <p>description :{{$immobilier->description }}</p>
+                            <p>type :{{$immobilier->typeImmob->type }}</p>
+                            <p> etat :{{$immobilier->etat }}</p>
+                            <p> la surface :{{$immobilier->surface }}</p>
+                            <p>le prix :{{$immobilier->prix }}</p>
+                            <p>Ville :{{$immobilier->villes->name }}</p>
+
+                            {{--     @foreach ($immobilier->images as $index =>$ImmoPhoto)
+
+                          --   @if(count($immobilier->images)>1)
+                                  {{--Multiple picture design
+
+                                          <div class="col-6">
+                                              <a href="" data-glightbox data-gallery="image-popup">
+                                                  <img class="rounded img-fluid" src="{{ asset($ImmoPhoto->path) }}" alt="image {{ $index }}">
+                                              </a>
+                                          </div>
+
+                                @else
+                                       <img class="card-img" src="{{(asset($ImmoPhoto->path))}}" alt="Post">
+                                @endif
+                                @endforeach --}}
+
+
+
+
+                                <div class="card">
+                                    <!-- ... other card content ... -->
+
+                                    <!-- Display images in rows with three columns -->
+                                    <div class="row">
+                                        @foreach ($immobilier->images as $index => $ImmoPhoto)
+                                            <div class="col-4">
+                                                <a href="" data-glightbox data-gallery="image-popup">
+                                                    <img class="rounded img-fluid" src="{{ asset($ImmoPhoto->path) }}" alt="Image {{ $index + 1 }}">
+                                                </a>
+
+                                            </div>
+                                            @if (($index + 1) % 3 === 0)
+                                    </div>
+                                    <div class="row">
+                                        @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+
+
+
+
+                            <!-- Card feed grid END -->
+
+                                <!-- Feed react START -->
+                                <ul class="nav nav-stack py-3 small">
+                                    <li class="nav-item">
+                                        <a class="nav-link active text-secondary" href="#!"> <i class="bi bi-heart-fill me-1 icon-xs bg-danger text-white rounded-circle"></i> Louis, Billy and 126 others </a>
+                                    </li>
+                                    <li class="nav-item ms-sm-auto">
+                                        <a class="nav-link" href="#!"> <i class="bi bi-chat-fill pe-1"></i>Comments (12)</a>
+                                    </li>
+                                </ul>
+                                <!-- Feed react END -->
+
+                                <!-- Feed react START -->
+                                <ul class="nav nav-pills nav-pills-light nav-fill nav-stack small border-top border-bottom py-1 mb-3">
+                                    <li class="nav-item">
+                                        <a class="nav-link mb-0 active" href="#!"> <i class="bi bi-heart pe-1"></i>Liked (56)</a>
+                                    </li>
+                                    <!-- Card share action menu START -->
+                                    <li class="nav-item dropdown">
+                                        <a href="#" class="nav-link mb-0" id="cardShareAction4" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-reply-fill flip-horizontal ps-1"></i>Share (3)
+                                        </a>
+                                        <!-- Card share action dropdown menu -->
+                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cardShareAction4">
+                                            <li><a class="dropdown-item" href="#"> <i class="bi bi-envelope fa-fw pe-2"></i>Send via Direct Message</a></li>
+                                            <li><a class="dropdown-item" href="#"> <i class="bi bi-bookmark-check fa-fw pe-2"></i>Bookmark </a></li>
+                                            <li><a class="dropdown-item" href="#"> <i class="bi bi-link fa-fw pe-2"></i>Copy link to post</a></li>
+                                            <li><a class="dropdown-item" href="#"> <i class="bi bi-share fa-fw pe-2"></i>Share post via …</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="#"> <i class="bi bi-pencil-square fa-fw pe-2"></i>Share to News Feed</a></li>
+                                        </ul>
+                                    </li>
+                                    <!-- Card share action menu END -->
+                                    <li class="nav-item">
+                                        <a class="nav-link mb-0" href="#!"> <i class="bi bi-send-fill pe-1"></i>Send</a>
+                                    </li>
+                                </ul>
+
+                            <!-- Card body END -->
+
 
                             <!-- Add comment -->
                             <div class="d-flex mb-3">
@@ -168,24 +232,14 @@
                         <!-- Card footer END -->
                     </div>
                     <!-- Card feed item END -->
+                    @endforeach
 
-
-                    <!-- Load more button START -->
-                    <a href="#!" role="button" class="btn btn-loader btn-primary-soft" data-bs-toggle="button" aria-pressed="true">
-                        <span class="load-text"> Load more </span>
-                        <div class="load-icon">
-                            <div class="spinner-grow spinner-grow-sm" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
-                    </a>
-                    <!-- Load more button END -->
 
                 </div>
                 <!-- Main content END -->
 
                 <!-- Right sidebar START -->
-               @include('front.rightSidebar')
+             {{--  @include('front.rightSidebar') --}}
                 <!-- Right sidebar END -->
 
             </div> <!-- Row END -->

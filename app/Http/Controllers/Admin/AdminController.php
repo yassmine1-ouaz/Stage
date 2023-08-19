@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminRequest;
+use App\Models\Immobilier;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\support\Facades\Auth;
 use App\Models\Admin;
@@ -71,10 +73,10 @@ class AdminController extends Controller
 
 
     public function showLoginForm(){
-        //return view('dashboard.admin.login')->withTitle('Edit');
-        return view('dashboard.admin.login')->withTitle('Login');
+       // $users = User::all();
+        return view('dashboard.admin.login' )->withTitle('Login');
     }
-
+    //, compact('users')
     public function  Login(Request $request){
 
         try {
@@ -98,10 +100,38 @@ class AdminController extends Controller
 
         }
     }
-    function logout()
+
+
+    public function profile(){
+
+        return view('dashboard.profile');
+
+    }
+
+    public function showUsers(){
+
+        $users     = User::all();
+
+        return view('dashboard.admin.listusers')->with([ 'users' => $users]);
+    }
+
+
+    public function showImmobiliers(){
+
+        $immobiliers  = Immobilier::all();
+
+        return view('dashboard.admin.listimmobiliers')->with([ 'immobiliers' => $immobiliers]);
+    }
+
+
+
+
+
+    public function logout()
     {
-        Auth::logout();
-        return redirect('/');
+        dd('logout');
+        Auth::guard('admin')->logout();
+        return view('authinterfaces.login')->withTitle('logout');
     }
 
 }

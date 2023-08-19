@@ -14,11 +14,10 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('authinterfaces' ); //user must be authenticated
+      //  $this->middleware('authinterfaces' ); //user must be authenticated
     }
 
     public function showLoginForm(){
-
         return view('authinterfaces.login')->withTitle('Login');
     }
     public function showRegisterForm(){
@@ -32,14 +31,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //return view('home');
+        return view('home');
         return view('dashboard.admin.home');
         return view('dashboard.user.home');
 
 
     }
 
-    public function showFront(){
+   /* public function showFront(){
         return view('front.masterfront')->withTitle('Front');
-    }
+    }*/
 }

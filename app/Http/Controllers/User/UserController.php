@@ -13,12 +13,8 @@ use Session;
 
 class UserController extends Controller
 {
-    //fonction qui permet d'aff la page1
 
-    public function afficherpage1(){
 
-        return view('page1');
-    }
 
     /**
      * Show the form to create a new blog post.
@@ -82,23 +78,6 @@ class UserController extends Controller
         }else{
             return redirect()->route('user.login')->with('fail','Verifier le ot de passe');
         }
-    }
-
-    public function isUser(){
-
-        return view('front.pages.user');
-    }
-
-
-    public function isInvestisseur(){
-
-        return view('front.pages.invest');
-    }
-
-
-    public function isProprietaire(){
-
-        return view('front.pages.prop');
     }
 
 
