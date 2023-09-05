@@ -18,8 +18,8 @@ class Immobiliers extends Migration
             $table->increments('id');
             $table->string('name')->nullable();;
 
-               $table->integer('immob_type')->unsigned();
-              $table->foreign('immob_type')->references('id')->on('type_immob')->onDelete('cascade');
+            $table->integer('immob_type')->unsigned();
+            $table->foreign('immob_type')->references('id')->on('type_immob')->onDelete('cascade');
 
 
             $table->integer('user_id')->unsigned();
@@ -27,17 +27,16 @@ class Immobiliers extends Migration
 
             $table->string('etat')->nullable();
             $table->text('description')->nullable();
-            $table->integer('surface')->nullable();
-              $table->integer('ville_id')->unsigned();
-              $table->foreign('ville_id')->references('id')->on('gouvernorat')->onDelete('cascade');
-            $table->boolean('status')->default(0);
+            $table->string('surface')->nullable();
+            $table->integer('ville_id')->unsigned();
+            $table->foreign('ville_id')->references('id')->on('gouvernorat')->onDelete('cascade');
+            $table->enum('status', ['Pending', 'Active', 'Blocked'])->default('pending');
             $table->integer('prix')->nullable();
 
-             // $table->integer('photo_id')->unsigned();
+            // $table->integer('photo_id')->unsigned();
             // $table->foreign('photo_id')->references('id')->on('photos')->onDelete('cascade');
 
             $table->timestamps();
-
         });
     }
 

@@ -87,20 +87,7 @@
                 <!-- Card END -->
 
                 <!-- Helper link START -->
-                <ul class="nav small mt-4 justify-content-center lh-1">
-                    <li class="nav-item">
-                        <a class="nav-link" href="my-profile-about.html">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="settings.html">Settings</a>
-                    </li>
-
-
-                </ul>
-                <!-- Helper link END -->
-                <!-- Copyright -->
-                <p class="small text-center mt-1">©2023 <a class="text-body" target="_blank" href="https://www.webestica.com/"> Webestica </a></p>
-            </div>
+                </div>
         </div>
     </nav>
     <!-- Navbar END-->

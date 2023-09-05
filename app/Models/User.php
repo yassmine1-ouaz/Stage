@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'phone','password', 'email_verified',
+        'name', 'email', 'phone', 'password', 'email_verified', 'status',
     ];
 
     /**
@@ -38,16 +38,21 @@ class User extends Authenticatable
     ];
     public function userType()
     {
-        return $this->belongsTo('App\Models\UsersTypes','type_id','id');
+        return $this->belongsTo('App\Models\UsersTypes', 'type_id', 'id');
     }
-
 
     public function immobilier()
     {
         return $this->hasMany('App\Models\Immobilier');
     }
-    public function publication()
+
+    public function comments()
     {
-        return $this->hasMany('App\Models\Publication');
+        return $this->hasMany('App\Models\Commentaire');
+    }
+
+    public function reservation()
+    {
+        return $this->hasMany('App\Models\Reservation');
     }
 }

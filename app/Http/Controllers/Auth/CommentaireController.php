@@ -1,10 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
 
+namespace App\Http\Controllers\Auth;
+
+use App\Models\Ville;
+use App\Models\TypeImmob;
+use App\Models\Immobilier;
+use App\Models\UsersTypes;
+use App\Models\Commentaire;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
-class PhotosController extends Controller
+class CommentaireController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +22,6 @@ class PhotosController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -32,10 +40,20 @@ class PhotosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    /*public function storeComments(Request $request)
     {
-        //
-    }
+        $commentaire = new Commentaire();
+    
+        $commentaire->user_id = Auth::user()->id;
+      
+        $commentaire->immob_id = $request->id;
+   
+        $commentaire->commentaire = $request->commentaire;
+      
+        $commentaire->save();
+        dd('ddddd');
+        return redirect()->route('user.home')->with('success', 'Commentaire a été bien ajouté !');
+    }*/
 
     /**
      * Display the specified resource.

@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\Ville;
+use App\Models\Photos;
+use Mockery\Exception;
+use App\Models\TypeImmob;
 use App\Models\Immobilier;
 use App\Models\ImmobPhoto;
-use App\Models\TypeImmob;
-use App\Models\User;
-use App\Models\Photos;
-use App\Models\Ville;
+use App\Models\Commentaire;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use Mockery\Exception;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ImmobilierController extends Controller
@@ -25,17 +26,42 @@ class ImmobilierController extends Controller
     public function index()
 
     {
-        $immobiliers = Immobilier::all();
+        //$immobiliers = Immobilier::all();
+        //$immobiliers = Immobilier::orderBy('id', 'desc')->get();
+        $immobiliers = Immobilier::where('status', 'Active')->get();
         $types = TypeImmob::all();
         $villes = Ville::all();
-        $etat = Immobilier::all();
-        //$immobiliers = Immobilier::with('images')->get();
+        $etats = Immobilier::all();
+        $commentaires = Commentaire::all();
 
+
+        // $types = UsersTypes::get();
+        // return view('dashboard.user.home',['types'=>$types])->withTitle('Register');
         //Alert::success('Congrats', 'Immobilier a été bien posté !');
 
+        return view('dashboard.user.home', compact('immobiliers', 'types', 'villes', 'etats', 'commentaires'))->with(['success' => 'Immobilier a été bien posté !']);
+    }
 
-        return view('dashboard.user.home', compact('immobiliers', 'types', 'villes', 'etat'))->with(['message' => 'Immobilier a été bien posté !']);
+    public function Comments(Request $request)
+    {
 
+        $request->validate([
+            'id' => 'required|exists:immobiliers,id', // Validate that 'id' exists in the "immobiliers" table
+            'commentaire' => 'required',
+        ]);
+
+        $commentaire = new Commentaire();
+
+        $commentaire->user_id = Auth::user()->id;
+
+
+        $commentaire->immob_id = $request->id;
+
+        $commentaire->commentaire = $request->commentaire;
+        dd('ddddd');
+        $commentaire->save();
+
+        return redirect()->route('user.home')->with('success', 'Commentaire a été bien ajouté !');
     }
 
     /**
@@ -46,8 +72,10 @@ class ImmobilierController extends Controller
     public function store(Request $request)
 
     {
-
+        // dd($request);
+        //$immobiliers = Immobilier::where('user_id', Auth::user()->id)->where('status', 'Pending')->get();     
         try {
+
 
             $immobilier = new Immobilier();
             $immobilier->name = $request->name;
@@ -57,11 +85,10 @@ class ImmobilierController extends Controller
             $immobilier->etat = $request->etat;
             $immobilier->surface = $request->surface;
             $immobilier->prix = $request->prix;
-            $immobilier->status = 0;
+            $immobilier->status = 'Pending';
             $immobilier->ville_id = $request->ville_id;
             $immobilier->save();
 
-            //$image = array();
 
             if ($request->hasFile("image")) {
                 $files = $request->file("image");
@@ -72,10 +99,7 @@ class ImmobilierController extends Controller
         } catch (Exception $exception) {
             dd('matemchich');
             return redirect()->route('user.home');
-
-
         }
-
     }
 
 
@@ -85,9 +109,27 @@ class ImmobilierController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function createImmob(Request $request)
+    public function filtrerVille($ville_id)
     {
+        $immobiliers = Immobilier::where('ville_id', $ville_id)->where('status', 'Active')->get();
+        $types = TypeImmob::all();
+        $villes = Ville::all();
+        $etats = Immobilier::all();
+        $commentaires = Commentaire::all();
+
+        return view('dashboard.user.home', compact('immobiliers', 'types', 'villes', 'etats', 'commentaires'));
     }
+    public function filtrerEtat($etat)
+    {
+        $immobiliers = Immobilier::where('etat', $etat)->where('status', 'Active')->get();
+        $types = TypeImmob::all();
+        $villes = Ville::all();
+        $etats = Immobilier::all();
+        $commentaires = Commentaire::all();
+
+        return view('dashboard.user.home', compact('immobiliers', 'types', 'villes', 'etats', 'commentaires'));
+    }
+
 
     /**
      * Display the specified resource.
@@ -98,7 +140,7 @@ class ImmobilierController extends Controller
     public function showImmob($id)
     {
         $immobilier = Immobilier::findOrFail($id);
-        return view('dashboard.immobilier.showImmob',compact('immobilier'));
+        return view('dashboard.immobilier.showImmob', compact('immobilier'));
     }
 
     /**
@@ -112,8 +154,36 @@ class ImmobilierController extends Controller
         $types = TypeImmob::all();
         $villes = Ville::all();
         $etat = Immobilier::all();
-        $immobiliers = Immobilier::findOrFail($id);
-        return view('dashboard.immobilier.editImmob', compact('immobiliers', 'types', 'villes', 'etat'))->with(['message' => 'Immobilier a été bien modifié !']);
+        $status = Immobilier::all();
+        $immobilier = Immobilier::findOrFail($id);
+        return view('dashboard.immobilier.editimmobback', compact('immobilier', 'status', 'types', 'villes', 'etat'));
+        //return redirect()->route('showImmobiliers')->with('success', 'Immobillier a été bien modifié !');
+    }
+
+    public function updateImmobBack(Request $request, $id)
+    {
+        $immobilier = Immobilier::findOrFail($id);
+        $immobilier->update($request->all());
+        return redirect()->route('showImmobiliers', $immobilier)->with('success', 'Immobillier a été bien modifié !');
+    }
+
+
+    public function destroyImmob($id)
+    {
+        $immobilier = Immobilier::findOrFail($id);
+        $immobilier->delete();
+        return redirect()->route('showImmobiliers')->with('success', 'Immobillier a été bien supprimé !');
+    }
+
+
+    public function editImmobFront($id)
+    {
+        $types = TypeImmob::all();
+        $villes = Ville::all();
+        $etat = Immobilier::all();
+        $immobilier = Immobilier::findOrFail($id);
+        return view('front.immobilier.editimmob', compact('immobilier', 'types', 'villes', 'etat'));
+        // return redirect()->route('user.home', $immobilier)->with('success', 'Immobillier a été bien modifié !');
     }
 
     /**
@@ -125,8 +195,12 @@ class ImmobilierController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $immobilier = Immobilier::findOrFail($id);
+        $immobilier->update($request->all());
+        return redirect()->route('user.home', $immobilier)->with('success', 'Immobillier a été bien modifié !');
     }
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -134,19 +208,30 @@ class ImmobilierController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroyImmobFront($id)
     {
-        $immobiliers = Immobilier::findOrFail($id);
+        $immobilier = Immobilier::findOrFail($id);
 
-        $immobiliers->delete();
-        return redirect()->route()->with('success' , 'Immobillier a été bien supprié !');
+        $immobilier->delete();
+        return redirect()->route('user.home')->with('success', 'Immobillier a été bien supprimé !');
     }
 
-    public function front_immobilier()
 
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showImmobFront($id)
     {
-        $immobiliers = Immobilier::all();
+        $immobilier = Immobilier::findOrFail($id);
 
-        return view('dashboard.user.home')->with(['immobiliers' => $immobiliers]);
+        return view('front.immobilier.detailimmob', compact('immobilier'));
+
+        //return redirect()->route('user.')->with('success', 'Immobillier a été bien supprimé !');
+
+
+        // return view('dashboard.user.home',['types'=>$types])->withTitle('Register');
     }
 }

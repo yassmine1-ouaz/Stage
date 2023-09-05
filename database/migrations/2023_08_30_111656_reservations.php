@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class PubComments extends Migration
+class Reservations extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,19 @@ class PubComments extends Migration
      */
     public function up()
     {
-        Schema::create('pub_comments', function (Blueprint $table) {
+        Schema::create('reservations', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('commentaire');
+
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->integer('immob_id')->unsigned();
             $table->foreign('immob_id')->references('id')->on('immobiliers')->onDelete('cascade');
+
+            $table->date('reserv_date')->nullable();
+            $table->date('datetime')->nullable();
+            $table->string('message')->nullable();
+            $table->boolean('status')->default('0');
 
             $table->timestamps();
         });
@@ -33,6 +38,7 @@ class PubComments extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pub_comments');
+
+        Schema::dropIfExists('reservations');
     }
 }

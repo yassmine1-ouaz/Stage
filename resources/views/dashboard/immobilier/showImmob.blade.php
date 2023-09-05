@@ -10,75 +10,97 @@
     <br>
 
     <div class="row-cols-5">
+
         <!-- General Element -->
-        <div class="card col-5">
+        <div class="card">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary"> Detail Immobilier </h6>
             </div>
-            <div class="card-body">
-                <form>
-                    <div class="form-group">
-                        <label for="exampleFormControlInput1">Name</label>
-                        <input type="text" class="form-control" value="{{$immobilier->name}}"
-                               placeholder="name"readonly>
-                    </div>
+       
 
-                    <div class="form-group">
-                        <label for="exampleFormControlInput1">type</label>
-                        <input type="text" class="form-control" value="{{$immobilier->typeImmob->type }}"
-                               placeholder="type"readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleFormControlInput1">etat</label>
-                        <input type="text" class="form-control"  value="{{$immobilier->etat}}" placeholder="etat"readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleFormControlInput1">surface</label>
-                        <input type="text" class="form-control" value="{{$immobilier->surface}} M²" placeholder="surface"readonly>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="exampleFormControlInput1">Ville</label>
-                        <input type="text" class="form-control" value="{{$immobilier->villes->name }}" placeholder="surface"readonly>
-                    </div>
+        <div class="card-body">
+            
+            <div class='table-responsive'>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Titre</th>
+                        <td>{{$immobilier->name}}</td>
+                    </tr>
 
-                    <div class="form-group">
-                        <label class="form-label">description</label>
-                        <textarea class="form-control"  name="description"  rows="3" readonly>{{$immobilier->description}}</textarea>
+                    <tr>
+                        <th>Type</th>
+                        <td>{{$immobilier->typeImmob->type }}</td>
+                    </tr>
+                    <tr>
+                        <th>Etat</th>
+                        <td>{{$immobilier->etat}}</td>
+                    </tr>
+                    <tr>
+                        <th>Surface</th>
+                        <td>{{$immobilier->surface}}</td>
+                    </tr>
+                    <tr>
+                        <th>Ville</th>
+                        <td>{{$immobilier->villes->name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{$immobilier->description}}</td>
+                    </tr>
+                    <tr>
+                        <th>Prix</th>
+                        <td>{{$immobilier->prix}} TND</td>
+                    </tr>
 
-                    </div>
-                    <div class="form-group">
-                        <label>prix</label>
-                        <input class="form-control" type="text" value="{{$immobilier->prix}} DT" placeholder="prix" readonly>
-                    </div>
+                    <tr>
+                        <th>Status</th>
+                        <td> @if( $immobilier->status == "Pending")
+                                                <span class="badge badge-danger"> {{$immobilier->status }} </span>
+                                                @else
+                                                <span class="badge badge-primary"> {{$immobilier->status }} </span>
+                                                @elsif
+                                                <span class="badge badge-success"> {{$immobilier->status }} </span>
+                                                @endif</td>
+                    </tr>
+                    <tr>
+                        <th>Created At</th>
+                        <td>{{$immobilier->created_at}}</td>
+                    </tr>
 
-                    <div class="form-group">
-                        <label for="exampleFormControlInput1">status</label>
-                        <input type="text" class="form-control"  value="{{$immobilier->status}}" placeholder="status"readonly>
-                    </div>
+                    <tr>
+                        <th>Updated At</th>
+                        <td>{{$immobilier->updated_at}}</td>
+                    </tr>
+                    <tr>
+                        <th>Created By</th>
+                        <td>{{Auth::user()->userType->name}}</td>
+                    </tr>
 
-                    <div class="form-group">
-                        <label for="exampleFormControlInput1">Created At</label>
-                        <input type="text" class="form-control" value="{{$immobilier->created_at}}"
-                               placeholder="Created At"readonly>
-                    </div><div class="form-group">
-                        <label for="exampleFormControlInput1">Updated At</label>
-                        <input type="text" class="form-control" value="{{$immobilier->updated_at}}"
-                               placeholder="Updated At"readonly>
-                    </div>
-                    <div class="row-3">
-                        <div class="col-6">
+        
 
-                                <div class="form-group">
-                                    <label for="exampleFormControlInput1">Name</label>
-                                    <input type="text" class="form-control" value="{{$immobilier->name}}"
-                                           placeholder="name"readonly>
-                                </div>
-                    </div>
-                    </div>
-                </form>
-            </div>
+                    <tr>
+                        <th>Photos</th>
+                    <td> <div class="row">
+                            @foreach ($immobilier->images as $index => $ImmoPhoto)
+                            <div class="col-4">
+                                <a href="" data-glightbox data-gallery="image-popup">
+                                    <img class="rounded img-fluid" src="{{ asset($ImmoPhoto->path) }}" alt="Image {{ $index + 1 }}">
+                                </a>
 
+                            </div>
+                            @if (($index + 1) % 3 === 0)
+                        </div>
+                        <div class="row">
+                            @endif
+                            @endforeach
+                        </div>
+                                            </td>
+                    </tr>
+                    
+                </table>
+   
         </div>
-
-@endsection
+            </div>
+        </div>
+        @endsection

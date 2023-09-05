@@ -52,7 +52,7 @@
                                 </div>
                                 @endif
                             </div>
-
+                            
 
                             <div class="table-responsive p-3">
                                 <table class="table align-items-center table-flush" id="dataTable">
@@ -65,7 +65,7 @@
                                             <th>Phone</th>
                                             <th>Status</th>
                                             <th> Created At</th>
-                                            <th> Action</th>
+                                     
 
                                         </tr>
                                     </thead>
@@ -80,29 +80,14 @@
                                             <td>{{$user->email }}</td>
                                             <td>{{$user->phone }}</td>
 
-                                            <td>
-                                                <span class="badge {{ $user->status == '1' ? 'badge-success' : 'badge-danger' }}" id="statusBadge{{$user->id}}">
+                                            <td id="statusColumn">
+                                                <span class="badge {{ $user->status == '1' ? 'badge-success' : 'badge-danger' }}">
                                                     {{ $user->status == '1' ? 'Active' : 'Blocked' }}
                                                 </span>
                                             </td>
 
                                             <td>{{$user->created_at }}</td>
-                                            <td>
-                                                <div class="custom-control custom-switch">
-                                                    <input value="{{$user->id }}" type="checkbox" onchange="BloquerUser(this)" class="custom-control-input" id="customSwitch{{$user->id}}" data-user-id="{{$user->id}}" {{ $user->status == '1' ? 'checked' : '' }}>
-                                                    <label class="custom-control-label" for="customSwitch{{$user->id}}"></label>
-                                                </div>
-
-
-
-                                                <form action="{{ route('destroyUser', $user->id) }}" method="post" type="button">
-
-
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="btn btn-outline-danger" onclick="return confirm('Are you sure ?');" type="submit"> <i class="fas fa-trash"></i></button>
-                                                </form>
-                                            </td>
+                                         
                                         </tr>
                                         @endforeach
 
@@ -129,36 +114,32 @@
             @section('script')
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script>
-                function BloquerUser(el) {
-                    if (el.checked) {
-                        var status = 1
-                    } else {
-                        var status = 0
-                    }
-                    $.ajax({
-                        type: 'POST',
-                        dataType: "json",
-                        url: "{{route('BloquerUser')}}",
-                        data: {
-                            id: el.value,
-                            _token: '{{ csrf_token() }}',
-                            status: status
-                        },
-                        success: function(data) {
-                            if (data.success) {
-                                document.getElementById("statusBadge" + el.value).classList.remove('badge', 'badge-danger');
-                                document.getElementById("statusBadge" + el.value).classList.add('badge', 'badge-success');
-                                document.getElementById("statusBadge" + el.value).innerText = data.message
-                            } else {
-                                document.getElementById("statusBadge" + el.value).classList.remove('badge', 'badge-success');
-                                document.getElementById("statusBadge" + el.value).classList.add('badge', 'badge-danger');
+                function BloquerUser() {
 
-                                document.getElementById("statusBadge" + el.value).innerText = data.message
-                            }
-                            console.log(data.success)
-                        }
+                    $(document).ready(function() {
+                        $('input.custom-control-input').on('change', function() {
+                            var id = $(this).data('user-id');
+                            var status = $(this).is(':checked');
+
+                            $.ajax({
+                                type: 'POST',
+                                dataType: "json",
+                                url: '/listusers/bloquer/' + id,
+                                data: {
+                                    _token: '{{ csrf_token() }}',
+                                    status: status
+                                },
+                                success: function(data) {
+                                    if (data.success) {
+                                        alert('Utilisateur bloqué/débloqué avec succès.');
+                                    } else {
+                                        alert('Une erreur s\'est produite.');
+                                    }
+                                    console.log(data.success)
+                                }
+                            });
+                        });
                     });
-
 
                 }
             </script>

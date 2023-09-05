@@ -21,10 +21,6 @@ class ImmobPhoto extends Migration
 
             $table->integer('id_photo')->unsigned();
             $table->foreign('id_photo')->references('id')->on('photos')->onDelete('cascade');
-
-
-
-
         });
     }
 
@@ -35,6 +31,6 @@ class ImmobPhoto extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('immob_photo');
     }
 }

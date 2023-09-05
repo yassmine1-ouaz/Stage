@@ -45,7 +45,8 @@ class LoginController extends Controller
 
     }
 
-    public function  Login(Request $request){
+    public function  Login(Request $request)
+    {
         try {
             $request->validate([
                 'identify' => ['required'],
@@ -53,24 +54,24 @@ class LoginController extends Controller
             ]);
             $identify = $this->username();
             /** @var TYPE_NAME $creds */
-            $creds = $request->only([$identify,'password']);
+            $creds = $request->only([$identify, 'password']);
 
-            if( Auth::guard('web')->attempt($creds)) {
+            if (Auth::guard('web')->attempt($creds)) {
                 return redirect()->route('user.home');
-            }elseif(Auth::guard('admin')->attempt($creds)){
+            } elseif (Auth::guard('web')->attempt($creds)) {
                 return redirect()->route('admin.home');
-            }
-            else{
-                return redirect()->route('showLoginForm')->with('fail','Verifier le mot de passe');
+            } elseif (Auth::guard('admin')->attempt($creds)) {
+                return redirect()->route('admin.home');
+            } else {
+                return redirect()->route('showLoginForm')->with('fail', 'Verifier le mot de passe');
             }
         } catch (Exception $exception) {
-
         }
     }
     public function username()
     {
         // return 'phone';
-        $value = request() -> input ('identify'); // aa@aa.com or 523361
+        $value = request()->input('identify'); // aa@aa.com or 523361
         $field = filter_var($value, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
 
         /* $field ='';
@@ -78,7 +79,7 @@ class LoginController extends Controller
              $field = 'email';
          }else$field = 'phone';*/
 
-        request()->merge([$field =>$value]);
+        request()->merge([$field => $value]);
         return $field;
     }
 }

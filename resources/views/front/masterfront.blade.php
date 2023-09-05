@@ -1,8 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <!-- Mirrored from social.webestica.com/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 05 Mar 2023 12:34:09 GMT -->
+
 <head>
     <title>@yield('title')</title>
 
@@ -23,7 +23,7 @@
             return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
         }
 
-        const setTheme = function (theme) {
+        const setTheme = function(theme) {
             if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                 document.documentElement.setAttribute('data-bs-theme', 'dark')
             } else {
@@ -35,7 +35,7 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             var el = document.querySelector('.theme-icon-active');
-            if(el != 'undefined' && el != null) {
+            if (el != 'undefined' && el != null) {
                 const showActiveTheme = theme => {
                     const activeThemeIcon = document.querySelector('.theme-icon-active use')
                     const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
@@ -69,7 +69,6 @@
 
             }
         })
-
     </script>
 
     <!-- Favicon -->
@@ -98,48 +97,54 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-GMKQ4P9YMZ"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
         gtag('js', new Date());
 
         gtag('config', 'G-GMKQ4P9YMZ');
     </script>
 
 </head>
+
 <body>
 
-<!-- =======================
+    <!-- =======================
 Header START -->
-@include('front.header')
-<!-- =======================
+    @include('front.header')
+    <!-- =======================
 Header END -->
 
-<!-- **************** MAIN CONTENT START **************** -->
+    <!-- **************** MAIN CONTENT START **************** -->
 
-@yield('content')
-<!-- **************** MAIN CONTENT END **************** -->
+    @yield('content')
 
-<!-- =======================
+    <!-- **************** MAIN CONTENT END **************** -->
+
+    <!-- =======================
 JS libraries, plugins and custom scripts -->
 
-<!-- Bootstrap JS -->
-<script src="{{asset('Front/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{{asset('Front/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
 
-<!-- Vendors -->
-<script src="{{asset('Front/assets/vendor/tiny-slider/dist/tiny-slider.js')}}"></script>
-<script src="{{asset('Front/assets/vendor/OverlayScrollbars-master/js/OverlayScrollbars.min.js')}}"></script>
-<script src="{{asset('Front/assets/vendor/choices.js/public/assets/scripts/choices.min.js')}}"></script>
-<script src="{{asset('Front/assets/vendor/glightbox-master/dist/js/glightbox.min.js')}}"></script>
-<script src="{{asset('Front/assets/vendor/flatpickr/dist/flatpickr.min.js')}}"></script>
-<script src="{{asset('Front/assets/vendor/plyr/plyr.js')}}"></script>
-<script src="{{asset('Front/assets/vendor/dropzone/dist/min/dropzone.min.js')}}"></script>
-<script src="{{asset('Front/assets/vendor/zuck.js/dist/zuck.min.js')}}"></script>
-<script src="{{asset('Front/assets/js/zuck-stories.js')}}"></script>
+    <!-- Vendors -->
+    <script src="{{asset('Front/assets/vendor/tiny-slider/dist/tiny-slider.js')}}"></script>
+    <script src="{{asset('Front/assets/vendor/OverlayScrollbars-master/js/OverlayScrollbars.min.js')}}"></script>
+    <script src="{{asset('Front/assets/vendor/choices.js/public/assets/scripts/choices.min.js')}}"></script>
+    <script src="{{asset('Front/assets/vendor/glightbox-master/dist/js/glightbox.min.js')}}"></script>
+    <script src="{{asset('Front/assets/vendor/flatpickr/dist/flatpickr.min.js')}}"></script>
+    <script src="{{asset('Front/assets/vendor/plyr/plyr.js')}}"></script>
+    <script src="{{asset('Front/assets/vendor/dropzone/dist/min/dropzone.min.js')}}"></script>
+    <script src="{{asset('Front/assets/vendor/zuck.js/dist/zuck.min.js')}}"></script>
+    <script src="{{asset('Front/assets/js/zuck-stories.js')}}"></script>
 
-<!-- Theme Functions -->
-<script src="{{asset('Front/assets/js/functions.js')}}"></script>
-
+    <!-- Theme Functions -->
+    <script src="{{asset('Front/assets/js/functions.js')}}"></script>
+    @yield('script')
 
 </body>
 
 <!-- Mirrored from social.webestica.com/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 05 Mar 2023 12:34:35 GMT -->
+
 </html>

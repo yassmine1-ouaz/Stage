@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,37 +16,40 @@
 </head>
 
 <body id="page-top">
-<div id="wrapper">
-    <!-- Sidebar -->
-    @include('back.sidebar')
-    <!-- Sidebar -->
-    <div id="content-wrapper" class="d-flex flex-column">
-        <div id="content">
-            <!-- TopBar -->
-            @include('back.header')
-            <!-- Topbar -->
+    <div id="wrapper">
+        <!-- Sidebar -->
+        @include('back.sidebar')
+        <!-- Sidebar -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <!-- TopBar -->
+                @include('back.header')
+                <!-- Topbar -->
 
-            <!-- Container Fluid-->
-           @yield('content')
-            <!---Container Fluid-->
+                <!-- Container Fluid-->
+                @yield('content')
+                <!---Container Fluid-->
+            </div>
+            <!-- Footer -->
+            @include('back.footer')
+            <!-- Footer -->
         </div>
-        <!-- Footer -->
-      @include('back.footer')
-        <!-- Footer -->
     </div>
-</div>
 
-<!-- Scroll to top -->
-<a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-</a>
+    <!-- Scroll to top -->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
 
-<script src="{{asset('Back/assets/vendor/jquery/jquery.min.js')}}"></script>
-<script src="{{asset('Back/assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-<script src="{{asset('Back/assets/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
-<script src="{{asset('Back/assets/js/ruang-admin.min.js')}}"></script>
-<script src="{{asset('Back/assets/vendor/chart.js/Chart.min.js')}}"></script>
-<script src="{{asset('Back/assets/js/demo/chart-area-demo.js')}}"></script>
+    <script src="{{asset('Back/assets/vendor/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('Back/assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('Back/assets/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+    <script src="{{asset('Back/assets/js/ruang-admin.min.js')}}"></script>
+    <script src="{{asset('Back/assets/vendor/chart.js/Chart.min.js')}}"></script>
+    <script src="{{asset('Back/assets/js/demo/chart-area-demo.js')}}"></script>
+
+    @yield('script')
+
 </body>
 
 </html>
